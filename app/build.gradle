@@ -1,5 +1,16 @@
 apply plugin: 'com.android.application'
 
+Properties properties = new Properties()
+File keysFile = file('keys.properties')
+
+if (keysFile.exists()) {
+    properties.load(keysFile.newDataInputStream())
+} else if (System.env.CONSUMER_KEY != null) {
+    properties.setProperty("consumerKey", System.env.CONSUMER_KEY)
+} else {
+    throw new GradleException("keys.properties is missing")
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.2"
@@ -12,6 +23,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+
+        debug {
+            buildConfigField "String", "CONSUMER_KEY", "\"${properties.getProperty("consumerKey")}\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         FiveHundredPxClient client = builder.create(FiveHundredPxClient.class);
 
         String term = "cats";
-        String consumerKey = "";
+        String consumerKey = BuildConfig.CONSUMER_KEY;
 
         Call<PhotoListing> call = client.getListing(term, consumerKey);
         Log.d("API", "Enqueing API...");
