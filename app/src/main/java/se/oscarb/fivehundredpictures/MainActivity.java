@@ -5,10 +5,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
@@ -38,6 +42,31 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build();
+
+        // Create service
+        FiveHundredPxClient client = builder.create(FiveHundredPxClient.class);
+
+        String term = "cats";
+        String consumerKey = "";
+
+        Call<PhotoListing> call = client.getListing(term, consumerKey);
+        Log.d("API", "Enqueing API...");
+
+
+        call.enqueue(new Callback<PhotoListing>() {
+            @Override
+            public void onResponse(Call<PhotoListing> call, Response<PhotoListing> response) {
+                int statusCode = response.code();
+                PhotoListing photoListing = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<PhotoListing> call, Throwable t) {
+
+            }
+        });
+
+
 
 
     }
