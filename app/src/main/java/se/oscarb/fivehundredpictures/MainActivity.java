@@ -1,11 +1,10 @@
 package se.oscarb.fivehundredpictures;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,20 +14,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
+import se.oscarb.fivehundredpictures.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
 
     public static final String API_BASE_URL = "https://api.500px.com/v1/";
+    ActivityMainBinding binding;
+    FiveHundredPxClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        // Set view using data binding
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        setSupportActionBar(binding.toolbar);
+
+        FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,20 +48,20 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         // Create service
-        FiveHundredPxClient client = builder.create(FiveHundredPxClient.class);
+        client = builder.create(FiveHundredPxClient.class);
 
-        String term = "cats";
-        String consumerKey = BuildConfig.CONSUMER_KEY;
+    }
 
-        Call<PhotoListing> call = client.getListing(term, consumerKey);
-        Log.d("API", "Enqueing API...");
-
+    public void searchServiceForPictures(View view) {
+        String term = binding.contentMain.query.getText().toString();
+        Call<PhotoListing> call = client.getListing(term, BuildConfig.CONSUMER_KEY);
 
         call.enqueue(new Callback<PhotoListing>() {
             @Override
             public void onResponse(Call<PhotoListing> call, Response<PhotoListing> response) {
                 int statusCode = response.code();
                 PhotoListing photoListing = response.body();
+                binding.contentMain.results.setText("Found " + photoListing.total_items + " results");
             }
 
             @Override
@@ -67,9 +71,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

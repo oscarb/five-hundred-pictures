@@ -14,6 +14,9 @@ if (keysFile.exists()) {
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.2"
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "se.oscarb.fivehundredpictures"
         minSdkVersion 15
