@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private FiveHundredPxClient client;
 
     private List<Photo> photos;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +62,19 @@ public class MainActivity extends AppCompatActivity {
         client = builder.create(FiveHundredPxClient.class);
 
         // Empty list of photos
-        //photos = new ArrayList<Photo>();
+        photos = new ArrayList<Photo>();
 
         // RecyclerView
-        binding.contentMain.recyclerViewPhotos.setHasFixedSize(true);
+        recyclerView = binding.contentMain.recyclerViewPhotos;
+        recyclerView.setHasFixedSize(true);
 
         // LayoutManager
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(layoutManager);
 
         // Adapter
-        RecyclerView.Adapter adapter = new ThumbnailsAdapter(photos);
+        adapter = new ThumbnailsAdapter(photos);
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -81,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 int statusCode = response.code();
                 PhotoListing photoListing = response.body();
                 binding.contentMain.results.setText("Found " + photoListing.total_items + " results");
+
+                photos.addAll(photoListing.photos);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

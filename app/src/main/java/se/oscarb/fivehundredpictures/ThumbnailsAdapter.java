@@ -26,7 +26,7 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.binding.description.setText("Pos: " + position);
+        holder.binding.description.setText(photos.get(position).image_url);
     }
 
     @Override
@@ -39,6 +39,7 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.Vi
 
         public ViewHolder(ItemThumbnailBinding itemView) {
             super(itemView.getRoot());
+            binding = itemView;
         }
     }
 }
