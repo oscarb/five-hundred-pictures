@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,8 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static final String API_BASE_URL = "https://api.500px.com/v1/";
-    ActivityMainBinding binding;
-    FiveHundredPxClient client;
+
+    private ActivityMainBinding binding;
+    private FiveHundredPxClient client;
+
+    private List<Photo> photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Create service
         client = builder.create(FiveHundredPxClient.class);
+
+        // Empty list of photos
+        //photos = new ArrayList<Photo>();
+
+        // RecyclerView
+        binding.contentMain.recyclerViewPhotos.setHasFixedSize(true);
+
+        // LayoutManager
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+        // Adapter
+        RecyclerView.Adapter adapter = new ThumbnailsAdapter(photos);
 
     }
 
