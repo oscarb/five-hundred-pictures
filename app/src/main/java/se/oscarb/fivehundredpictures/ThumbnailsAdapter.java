@@ -1,24 +1,25 @@
 package se.oscarb.fivehundredpictures;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-/**
- * Created by Oscar on 2016-11-13.
- */
+import se.oscarb.fivehundredpictures.databinding.ItemThumbnailBinding;
+
 
 public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> {
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        ItemThumbnailBinding viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_thumbnail, parent, false);
+        return new ViewHolder(viewDataBinding);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.binding.description.setText("Pos: " + position);
     }
 
     @Override
@@ -27,9 +28,10 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private ItemThumbnailBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(ItemThumbnailBinding itemView) {
+            super(itemView.getRoot());
         }
     }
 }
