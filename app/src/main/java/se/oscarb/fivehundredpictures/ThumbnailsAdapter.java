@@ -40,6 +40,7 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.Vi
         public ViewHolder(ItemThumbnailBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+
         }
     }
 }
