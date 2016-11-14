@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 import se.oscarb.fivehundredpictures.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter.OnThumbnailClickListener {
 
 
     public static final String API_BASE_URL = "https://api.500px.com/v1/";
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         photos = new ArrayList<>();
 
         // RecyclerView
-        recyclerView = binding.contentMain.recyclerViewPhotos;
+        recyclerView = binding.recyclerViewPhotos;
         recyclerView.setHasFixedSize(true);
 
         // LayoutManager
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         // Adapter
         adapter = new ThumbnailsAdapter(photos);
         recyclerView.setAdapter(adapter);
+
+        // Handle clicks
+        ((ThumbnailsAdapter) adapter).setOnThumbnailClickListener(this);
 
     }
 
@@ -89,4 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onThumbnailClick(int adapterPosition) {
+        Toast.makeText(this, photos.get(adapterPosition).name, Toast.LENGTH_SHORT).show();
+    }
 }

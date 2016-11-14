@@ -8,6 +8,17 @@
         android:fitsSystemWindows="false"
     tools:context="se.oscarb.fivehundredpictures.MainActivity">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:clipToPadding="false"
+            android:paddingTop="80dp" />
+
         <include
             android:id="@+id/content_main"
             layout="@layout/content_main" />
