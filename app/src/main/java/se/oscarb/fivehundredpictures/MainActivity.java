@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 PhotoListing photoListing = response.body();
                 binding.contentMain.results.setText("Found " + photoListing.total_items + " results");
 
+                photos.clear();
                 photos.addAll(photoListing.photos);
                 adapter.notifyDataSetChanged();
             }

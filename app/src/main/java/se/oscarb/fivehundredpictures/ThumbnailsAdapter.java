@@ -1,6 +1,7 @@
 package se.oscarb.fivehundredpictures;
 
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -26,7 +27,9 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.binding.description.setText(photos.get(position).image_url);
+        Uri uri = Uri.parse(photos.get(position).image_url);
+        holder.binding.description.setText(photos.get(position).description);
+        holder.binding.thumbnail.setImageURI(uri);
     }
 
     @Override
