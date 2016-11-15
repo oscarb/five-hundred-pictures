@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
     public void searchServiceForPictures(View view) {
         String term = binding.contentMain.query.getText().toString();
-        Call<PhotoListing> call = client.getListing(term, BuildConfig.CONSUMER_KEY);
+        Call<PhotoListing> call = client.getListing(BuildConfig.CONSUMER_KEY, term);
 
         call.enqueue(new Callback<PhotoListing>() {
             @Override

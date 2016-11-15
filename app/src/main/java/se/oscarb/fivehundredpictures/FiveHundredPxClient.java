@@ -9,5 +9,12 @@ public interface FiveHundredPxClient {
 
     // Search 500px for pictures
     @GET("photos/search")
-    Call<PhotoListing> getListing(@Query("term") String term, @Query("consumer_key") String consumer_key);
+    Call<PhotoListing> getListing(@Query("consumer_key") String consumerKey,
+                                  @Query("term") String term);
+
+    @GET("photos/search")
+    Call<PhotoListing> getListing(@Query("consumer_key") String consumerKey,
+                                  @Query("term") String term,
+                                  @Query("image_size") int imageSize);
+
 }
