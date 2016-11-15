@@ -6,6 +6,7 @@ public class Photo {
     int id;
     String name;
     String description;
+    boolean nsfw;
     User user;
     List<PhotoImage> images;
     String url;
@@ -16,7 +17,6 @@ public class Photo {
             result = (image.size == imageSize) ? image.url : result;
         }
         return result;
-
     }
 
 }

@@ -2,9 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <se.oscarb.fivehundredpictures.SquareFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="match_parent">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/thumbnail"
@@ -14,10 +14,20 @@
             fresco:viewAspectRatio="1" />
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/nsfw"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:alpha="0.8"
+            android:background="@android:color/background_dark"
+            android:gravity="center"
+            android:text="NSFW"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
-    </FrameLayout>
+    </se.oscarb.fivehundredpictures.SquareFrameLayout>
 </layout>
