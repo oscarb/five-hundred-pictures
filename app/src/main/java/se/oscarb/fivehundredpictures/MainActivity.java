@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
@@ -67,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
         // Handle clicks
         ((ThumbnailsAdapter) adapter).setOnThumbnailClickListener(this);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Toast.makeText(this, "Screeen width" + metrics.widthPixels, Toast.LENGTH_SHORT).show();
 
     }
 
