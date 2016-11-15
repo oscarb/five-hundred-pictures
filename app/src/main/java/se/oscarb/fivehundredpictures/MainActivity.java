@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         Toast.makeText(this, photos.get(adapterPosition).name, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(EXTRA_PHOTO_ID, photos.get(adapterPosition).id);
+        //intent.putExtra(EXTRA_PHOTO_ID, photos.get(adapterPosition).id);
+        intent.putExtra(EXTRA_PHOTO_ID, photos.get(adapterPosition).image_url);
         startActivity(intent);
 
     }
