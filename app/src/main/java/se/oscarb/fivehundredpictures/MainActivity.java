@@ -1,5 +1,6 @@
 package se.oscarb.fivehundredpictures;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
 
     public static final String API_BASE_URL = "https://api.500px.com/v1/";
+    public static final String EXTRA_PHOTO_ID = "se.oscarb.fivehudredpictures.PHOTO_ID";
 
     private ActivityMainBinding binding;
     private FiveHundredPxClient client;
@@ -96,5 +98,10 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
     @Override
     public void onThumbnailClick(int adapterPosition) {
         Toast.makeText(this, photos.get(adapterPosition).name, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(EXTRA_PHOTO_ID, photos.get(adapterPosition).id);
+        startActivity(intent);
+
     }
 }
