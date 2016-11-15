@@ -16,6 +16,25 @@ public class ImageSizeUtil {
     600	  600px x 600px
      */
 
+    public static int getCroppedImageSizeId(int widthInPixels) {
+
+        if (widthInPixels >= 600) {
+            return 600;
+        } else if (widthInPixels < 600 && widthInPixels >= 440) {
+            return 440;
+        } else if (widthInPixels < 440 && widthInPixels >= 280) {
+            return 3;
+        } else if (widthInPixels < 280 && widthInPixels >= 200) {
+            return 200;
+        } else if (widthInPixels < 200 && widthInPixels >= 140) {
+            return 2;
+        } else if (widthInPixels < 140 && widthInPixels >= 100) {
+            return 100;
+        } else {
+            return 1; //70x70px
+        }
+    }
+
     /*
     Uncropped sizes
     ID	    Dimensions
@@ -46,8 +65,6 @@ public class ImageSizeUtil {
         } else {
             return 30;
         }
-
-
     }
 
 }

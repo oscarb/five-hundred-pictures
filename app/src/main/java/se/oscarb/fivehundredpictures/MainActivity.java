@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
+    private int thumbnailSizeId = 1;  // 70x70px
+    private int photoImageSizeId = 4; // 900px on the longest edge
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +70,29 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         recyclerView = binding.recyclerViewPhotos;
         recyclerView.setHasFixedSize(true);
 
+        // Calculate span count
+        //Log.d("tag", "Screen width" + )
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+        int screenHeight = metrics.heightPixels;
+
+        int gridTargetWidth = getResources().getDimensionPixelSize(R.dimen.grid_target_width);
+        int spanCount = Math.round(screenWidth / gridTargetWidth);
+        spanCount = (spanCount == 0) ? 1 : spanCount;
+        int spanWidthInPixels = Math.round(screenWidth / spanCount);
+
+        thumbnailSizeId = ImageSizeUtil.getCroppedImageSizeId(spanWidthInPixels);
+
+        int largestWidth = Math.max(screenWidth, screenHeight);
+        photoImageSizeId = ImageSizeUtil.getUncroppedImageSizeId(largestWidth);
+
+
+
+
         // LayoutManager
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         recyclerView.setLayoutManager(layoutManager);
 
         // Adapter
@@ -79,15 +102,14 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         // Handle clicks
         ((ThumbnailsAdapter) adapter).setOnThumbnailClickListener(this);
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        Toast.makeText(this, "Screeen width" + metrics.widthPixels, Toast.LENGTH_SHORT).show();
+
 
     }
 
     public void searchServiceForPictures(View view) {
         String term = binding.contentMain.query.getText().toString();
-        int[] imageSizes = {2, 1080};
+
+        int[] imageSizes = {thumbnailSizeId, photoImageSizeId};
         Call<PhotoListing> call = client.getListing(BuildConfig.CONSUMER_KEY, term, imageSizes);
 
         // Hide keyboard
@@ -142,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         intent.putExtra(EXTRA_PHOTO_NAME, photo.name);
         intent.putExtra(EXTRA_PHOTO_DESCRIPTION, photo.description);
         intent.putExtra(EXTRA_PHOTO_URL, photo.url);
-        intent.putExtra(EXTRA_PHOTO_IMAGE_URL, photo.getImageUrl(1080));
+        intent.putExtra(EXTRA_PHOTO_IMAGE_URL, photo.getImageUrl(photoImageSizeId));
         intent.putExtra(EXTRA_USER_FULLNAME, photo.user.fullname);
 
 
