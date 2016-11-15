@@ -33,7 +33,8 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Uri uri = Uri.parse(photos.get(position).image_url);
+        String imageUrl = photos.get(position).getImageUrl(2);
+        Uri uri = Uri.parse(imageUrl);
         holder.binding.description.setText(photos.get(position).description);
         holder.binding.thumbnail.setImageURI(uri);
         holder.clickListener = thumbnailClickListener;

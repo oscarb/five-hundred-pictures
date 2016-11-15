@@ -1,4 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,7 +13,8 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/photo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            fresco:actualImageScaleType="fitCenter" />
 
         <!-- This FrameLayout insets its children based on system windows using
              android:fitsSystemWindows. -->
