@@ -43,20 +43,6 @@ public class DetailsActivity extends AppCompatActivity {
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
     private ActivityDetailsBinding binding;
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -95,6 +81,20 @@ public class DetailsActivity extends AppCompatActivity {
             hide();
         }
     };
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +107,7 @@ public class DetailsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        // getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0000")));
         //actionBar.getCustomView().setBackgroundColor();
 
         mVisible = true;
@@ -127,7 +128,7 @@ public class DetailsActivity extends AppCompatActivity {
         // while interacting with the UI.
         //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
-        // Recieve intent
+        // Receive intent
 
 
         Intent intent = getIntent();
@@ -137,7 +138,7 @@ public class DetailsActivity extends AppCompatActivity {
         String imageUrl = intent.getStringExtra(MainActivity.EXTRA_PHOTO_IMAGE_URL);
         String userName = intent.getStringExtra(MainActivity.EXTRA_USER_FULLNAME);
 
-        String baseUrl = "https://500px.com";
+        String baseUrl = ServiceGenerator.BASE_URL;
 
         name = (name == null || name.trim().equals("")) ? "Untitled" : name;
         description = (description == null || description.trim().equals("")) ? "" : description + "\n";
