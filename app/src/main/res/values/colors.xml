@@ -6,4 +6,6 @@
 
     <color name="black_overlay">#8a000000</color>
     <color name="active_icon">#8a8a8a</color>
+
+    <color name="app_bar_background">#cc000000</color>
 </resources>
