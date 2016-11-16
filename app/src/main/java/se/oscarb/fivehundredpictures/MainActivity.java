@@ -9,8 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,11 +105,28 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         // Handle clicks
         ((ThumbnailsAdapter) adapter).setOnThumbnailClickListener(this);
 
+        binding.contentMain.query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    searchServiceForPictures(textView);
+                    handled = true;
+                }
 
+                return handled;
+            }
+        });
 
     }
 
     public void searchServiceForPictures(View view) {
+        // Remove focus from editText
+        binding.contentMain.query.clearFocus();
+
+        binding.contentMain.progressBar.setVisibility(View.VISIBLE);
+
+
         String term = binding.contentMain.query.getText().toString();
 
         int[] imageSizes = {thumbnailSizeId, photoImageSizeId};
@@ -121,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         call.enqueue(new Callback<PhotoListing>() {
             @Override
             public void onResponse(Call<PhotoListing> call, Response<PhotoListing> response) {
+                binding.contentMain.progressBar.setVisibility(View.GONE);
+
+
                 int statusCode = response.code();
                 PhotoListing photoListing = response.body();
                 binding.contentMain.results.setText("Found " + photoListing.total_items + " results");
@@ -145,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
             @Override
             public void onFailure(Call<PhotoListing> call, Throwable t) {
+                binding.contentMain.progressBar.setVisibility(View.GONE);
+
                 Snackbar snackbar = Snackbar.make(binding.getRoot(), "Error", Snackbar.LENGTH_SHORT);
                 snackbar.show();
                 t.printStackTrace();
