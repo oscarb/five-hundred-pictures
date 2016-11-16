@@ -8,4 +8,6 @@
     <color name="active_icon">#8a8a8a</color>
 
     <color name="app_bar_background">#cc000000</color>
+
+    <color name="main_background">#616161</color>
 </resources>

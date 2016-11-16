@@ -5,6 +5,7 @@
     <android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+        android:background="@color/main_background"
         android:fitsSystemWindows="false"
     tools:context="se.oscarb.fivehundredpictures.MainActivity">
 
@@ -18,7 +19,7 @@
             android:layout_alignParentTop="true"
             android:clipToPadding="false"
             android:paddingBottom="100dp"
-            android:paddingTop="100dp" />
+            android:paddingTop="128dp" />
 
         <include
             android:id="@+id/content_main"
