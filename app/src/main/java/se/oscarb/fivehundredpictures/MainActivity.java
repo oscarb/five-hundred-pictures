@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     searchServiceForPictures(textView);
                     handled = true;
                 }
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
             DataHolder.getInstance().setPhotoList(photoListing.photos);
 
             if (photoListing.photos.size() == 0) {
-                // TODO: Get and display the term that was searched for
+                // TODO: Get and display the term that was searched for (No results for "monkeys")
                 binding.contentMain.emptyState.setText("No results");
             }
 
