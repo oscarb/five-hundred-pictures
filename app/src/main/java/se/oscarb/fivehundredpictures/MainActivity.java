@@ -138,11 +138,11 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
         Intent intent = new Intent(this, DetailsActivity.class);
         //intent.putExtra(EXTRA_PHOTO_ID, photos.get(adapterPosition).id);
-        intent.putExtra(EXTRA_PHOTO_NAME, photo.name);
-        intent.putExtra(EXTRA_PHOTO_DESCRIPTION, photo.description);
-        intent.putExtra(EXTRA_PHOTO_URL, photo.url);
+        intent.putExtra(EXTRA_PHOTO_NAME, photo.getName());
+        intent.putExtra(EXTRA_PHOTO_DESCRIPTION, photo.getDescription());
+        intent.putExtra(EXTRA_PHOTO_URL, photo.getUrl());
         intent.putExtra(EXTRA_PHOTO_IMAGE_URL, photo.getImageUrl(photoImageSizeId));
-        intent.putExtra(EXTRA_USER_FULLNAME, photo.user.fullname);
+        intent.putExtra(EXTRA_USER_FULLNAME, photo.getUser().getName());
 
 
 
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
             binding.contentMain.progressBar.setVisibility(View.GONE);
 
             if (!response.isSuccessful()) {
-                Snackbar snackbar = Snackbar.make(binding.getRoot(), "Can't connect to 500px", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, "Can't connect to 500px", Snackbar.LENGTH_LONG);
                 snackbar.show();
                 return;
             }
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         public void onFailure(Call<PhotoListing> call, Throwable t) {
             binding.contentMain.progressBar.setVisibility(View.GONE);
 
-            Snackbar snackbar = Snackbar.make(binding.getRoot(), "Can't connect to 500px", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, "Can't connect to 500px", Snackbar.LENGTH_LONG);
             snackbar.show();
             t.printStackTrace();
         }

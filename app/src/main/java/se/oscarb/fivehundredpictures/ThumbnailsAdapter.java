@@ -37,7 +37,7 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.Vi
         String imageUrl = photo.getImageUrl(2);
         Uri uri = Uri.parse(imageUrl);
 
-        holder.binding.nsfw.setVisibility((photo.nsfw) ? View.VISIBLE : View.GONE);
+        holder.binding.nsfw.setVisibility((photo.isNsfw()) ? View.VISIBLE : View.GONE);
         holder.binding.thumbnail.setImageURI(uri);
         holder.clickListener = thumbnailClickListener;
     }

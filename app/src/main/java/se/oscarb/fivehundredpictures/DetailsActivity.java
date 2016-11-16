@@ -25,8 +25,6 @@ import se.oscarb.fivehundredpictures.databinding.ActivityDetailsBinding;
  * status bar and navigation/system bar) with user interaction.
  */
 public class DetailsActivity extends AppCompatActivity {
-
-
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -42,51 +40,13 @@ public class DetailsActivity extends AppCompatActivity {
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler mHideHandler = new Handler();
-    private ActivityDetailsBinding binding;
-    private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
-        @Override
-        public void run() {
-            // Delayed removal of status and navigation bar
-
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-    };
-    private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.show();
-            }
-            mControlsView.setVisibility(View.VISIBLE);
-        }
-    };
-    private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
+    private final Handler hideHandler = new Handler();
     /**
      * Touch listener to use for in-layout UI controls to delay hiding the
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener delayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (AUTO_HIDE) {
@@ -95,11 +55,50 @@ public class DetailsActivity extends AppCompatActivity {
             return false;
         }
     };
+    private ActivityDetailsBinding binding;
+    private View contentView;
+    private final Runnable hidePart2Runnable = new Runnable() {
+        @SuppressLint("InlinedApi")
+        @Override
+        public void run() {
+            // Delayed removal of status and navigation bar
+
+            // Note that some of these constants are new as of API 16 (Jelly Bean)
+            // and API 19 (KitKat). It is safe to use them, as they are inlined
+            // at compile-time and do nothing on earlier devices.
+            contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
+    };
+    private View controlsView;
+    private final Runnable showPart2Runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Delayed display of UI elements
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.show();
+            }
+            controlsView.setVisibility(View.VISIBLE);
+        }
+    };
+    private boolean visible;
+    private final Runnable hideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hide();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Bind layout
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
 
         ActionBar actionBar = getSupportActionBar();
@@ -107,16 +106,12 @@ public class DetailsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        // getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0000")));
-        //actionBar.getCustomView().setBackgroundColor();
-
-        mVisible = true;
-        mControlsView = binding.fullscreenContentControls;
-        mContentView = binding.photo;
-
+        visible = true;
+        controlsView = binding.description;
+        contentView = binding.photo;
 
         // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
+        contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggle();
@@ -126,11 +121,9 @@ public class DetailsActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        controlsView.setOnTouchListener(delayHideTouchListener);
 
         // Receive intent
-
-
         Intent intent = getIntent();
         String name = (intent.getStringExtra(MainActivity.EXTRA_PHOTO_NAME));
         String description = intent.getStringExtra(MainActivity.EXTRA_PHOTO_DESCRIPTION);
@@ -138,12 +131,7 @@ public class DetailsActivity extends AppCompatActivity {
         String imageUrl = intent.getStringExtra(MainActivity.EXTRA_PHOTO_IMAGE_URL);
         String userName = intent.getStringExtra(MainActivity.EXTRA_USER_FULLNAME);
 
-        String baseUrl = ServiceGenerator.BASE_URL;
-
-        name = (name == null || name.trim().equals("")) ? "Untitled" : name;
-        description = (description == null || description.trim().equals("")) ? "" : description + "\n";
-        url = (url == null) ? "" : baseUrl + url;
-        userName = (userName == null || userName.trim().equals("")) ? "Unknown" : userName;
+        description = (description.equals("")) ? "" : description + "\n";
         String title = (getSupportActionBar().isTitleTruncated()) ? name + "\n" : "";
 
 
@@ -159,8 +147,9 @@ public class DetailsActivity extends AppCompatActivity {
         // Set description
         String information = title + description + "© " + userName + " / 500px \n\n" + url;
         SpannableString spannableString = new SpannableString(information);
+        // TODO: Make title bold
         spannableString.setSpan(new RelativeSizeSpan(0.7f), information.length() - url.length(), information.length(), 0);
-        binding.fullscreenContentControls.setText(spannableString);
+        binding.description.setText(spannableString);
 
 
     }
@@ -187,7 +176,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void toggle() {
-        if (mVisible) {
+        if (visible) {
             hide();
         } else {
             show();
@@ -200,24 +189,24 @@ public class DetailsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
-        mVisible = false;
+        controlsView.setVisibility(View.GONE);
+        visible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
+        hideHandler.removeCallbacks(showPart2Runnable);
+        hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY);
     }
 
     @SuppressLint("InlinedApi")
     private void show() {
         // Show the system bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        mVisible = true;
+        visible = true;
 
         // Schedule a runnable to display UI elements after a delay
-        mHideHandler.removeCallbacks(mHidePart2Runnable);
-        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
+        hideHandler.removeCallbacks(hidePart2Runnable);
+        hideHandler.postDelayed(showPart2Runnable, UI_ANIMATION_DELAY);
     }
 
     /**
@@ -225,7 +214,7 @@ public class DetailsActivity extends AppCompatActivity {
      * previously scheduled calls.
      */
     private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+        hideHandler.removeCallbacks(hideRunnable);
+        hideHandler.postDelayed(hideRunnable, delayMillis);
     }
 }
