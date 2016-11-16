@@ -7,4 +7,6 @@ public class PhotoListing {
     int total_pages;
     int total_items;
     List<Photo> photos;
+
+
 }

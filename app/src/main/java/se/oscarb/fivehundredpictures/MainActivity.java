@@ -67,7 +67,13 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         client = builder.create(FiveHundredPxClient.class);
 
         // Empty list of photos
-        photos = new ArrayList<>();
+
+        if (Photo.getPhotoList() != null) {
+            photos = Photo.getPhotoList();
+        } else {
+            photos = new ArrayList<>();
+        }
+
 
         // RecyclerView
         recyclerView = binding.recyclerViewPhotos;
@@ -146,6 +152,10 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
                 int statusCode = response.code();
                 PhotoListing photoListing = response.body();
+
+                Photo.setPhotoList(photoListing.photos);
+
+
                 binding.contentMain.results.setText("Found " + photoListing.total_items + " results");
 
                 // TODO: Check Status Code
