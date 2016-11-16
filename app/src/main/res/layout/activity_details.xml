@@ -18,22 +18,28 @@
 
         <!-- This FrameLayout insets its children based on system windows using
              android:fitsSystemWindows. -->
+
         <FrameLayout
-            android:layout_width="match_parent"
+                android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
 
-            <LinearLayout
-                android:id="@+id/fullscreen_content_controls"
-                style="?metaButtonBarStyle"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/fullscreenContentControls"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
+                android:alpha="0.85"
+                android:autoLink="web"
+                android:background="@android:color/background_dark"
                 android:orientation="horizontal"
-                tools:ignore="UselessParent">
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:textAppearance="?android:attr/textAppearanceMediumInverse"
 
-
-            </LinearLayout>
+                />
         </FrameLayout>
 
     </FrameLayout>

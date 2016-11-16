@@ -9,13 +9,14 @@ import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 
 import se.oscarb.fivehundredpictures.databinding.ActivityDetailsBinding;
 
@@ -42,20 +43,6 @@ public class DetailsActivity extends AppCompatActivity {
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
     private ActivityDetailsBinding binding;
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -94,6 +81,20 @@ public class DetailsActivity extends AppCompatActivity {
             hide();
         }
     };
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,24 +128,39 @@ public class DetailsActivity extends AppCompatActivity {
         //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
         // Recieve intent
+
+
         Intent intent = getIntent();
-        String name = intent.getStringExtra(MainActivity.EXTRA_PHOTO_NAME);
+        String name = (intent.getStringExtra(MainActivity.EXTRA_PHOTO_NAME));
         String description = intent.getStringExtra(MainActivity.EXTRA_PHOTO_DESCRIPTION);
         String url = intent.getStringExtra(MainActivity.EXTRA_PHOTO_URL);
         String imageUrl = intent.getStringExtra(MainActivity.EXTRA_PHOTO_IMAGE_URL);
         String userName = intent.getStringExtra(MainActivity.EXTRA_USER_FULLNAME);
 
+        String baseUrl = "https://500px.com";
+
+        name = (name == null || name.trim().equals("")) ? "Untitled" : name;
+        description = (description == null || description.trim().equals("")) ? "" : description + "\n";
+        url = (url == null) ? "" : baseUrl + url;
+        userName = (userName == null || userName.trim().equals("")) ? "Unknown" : userName;
+        String title = (getSupportActionBar().isTitleTruncated()) ? name + "\n" : "";
+
 
         //Toast.makeText(this, "ID: " + id, Toast.LENGTH_SHORT).show();
-        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(getResources());
-        GenericDraweeHierarchy hierarchy = builder.setProgressBarImage(new ProgressBarDrawable()).build();
-        binding.photo.setHierarchy(hierarchy);
+        GenericDraweeHierarchy hierarchy = binding.photo.getHierarchy();
+        hierarchy.setProgressBarImage(new ProgressBarDrawable());
 
         binding.photo.setImageURI(Uri.parse(imageUrl));
 
-
         // Change UI
         setTitle(name);
+
+        // Set description
+        String information = title + description + "© " + userName + " / 500px \n\n" + url;
+        SpannableString spannableString = new SpannableString(information);
+        spannableString.setSpan(new RelativeSizeSpan(0.7f), information.length() - url.length(), information.length(), 0);
+        binding.fullscreenContentControls.setText(spannableString);
+
 
     }
 
