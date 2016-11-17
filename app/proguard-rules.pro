@@ -17,7 +17,25 @@
 #}
 
 
+# Hide warnings about references to newer platforms in the library
+-dontwarn android.support.v7.**
+# don't process support library
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+
 # Retrofit Rules
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+-keep class se.oscarb.fivehundredpictures.Photo { *; }
+-keep class se.oscarb.fivehundredpictures.PhotoImage { *; }
+-keep class se.oscarb.fivehundredpictures.PhotoListing { *; }
+-keep class se.oscarb.fivehundredpictures.User { *; }
+
+
+-dontwarn retrofit.**
+-keep class retrofit.** { *; }
 
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform

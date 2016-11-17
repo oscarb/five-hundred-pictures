@@ -21,18 +21,19 @@ android {
         applicationId "se.oscarb.fivehundredpictures"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 17
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "CONSUMER_KEY", "\"${properties.getProperty("consumerKey")}\""
     }
     buildTypes {
-
         debug {
-            buildConfigField "String", "CONSUMER_KEY", "\"${properties.getProperty("consumerKey")}\""
         }
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-fresco.pro', 'proguard-rules.pro'
+
         }
     }
 }
