@@ -1,3 +1,3 @@
-# five Hundred Pictures
+# Five Hundred Pictures
 
 Search and see high quality pictures from 500px
