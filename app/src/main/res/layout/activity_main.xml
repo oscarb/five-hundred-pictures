@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="photoList"
             type="android.databinding.ObservableArrayList&lt;se.oscarb.fivehundredpictures.Photo&gt;" />
@@ -20,13 +19,9 @@
             android:id="@+id/recycler_view_photos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
             android:clipToPadding="false"
-            android:paddingBottom="100dp"
-            android:paddingTop="128dp" />
+            android:paddingBottom="@dimen/grid_padding_bottom"
+            android:paddingTop="@dimen/grid_padding_top" />
 
         <FrameLayout
             android:layout_width="match_parent"

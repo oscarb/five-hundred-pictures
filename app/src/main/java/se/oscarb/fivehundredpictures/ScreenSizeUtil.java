@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+
+/*
+ * Get screen dimensions and suggested values for the RecyclerView grid
+ */
 public class ScreenSizeUtil {
 
     private Context context;

@@ -38,4 +38,39 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="overlapping_description">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:alpha">0.85</item>
+        <item name="android:autoLink">web</item>
+        <item name="android:background">@android:color/background_dark</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:paddingBottom">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+    </style>
+
+    <style name="nsfw_warning">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:alpha">0.8</item>
+        <item name="android:background">@android:color/background_dark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="search_bar_card_defaults">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <style name="search_bar_card" parent="search_bar_card_defaults"></style>
+
 </resources>

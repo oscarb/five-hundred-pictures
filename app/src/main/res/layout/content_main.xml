@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,77 +11,31 @@
             type="android.databinding.ObservableArrayList&lt;se.oscarb.fivehundredpictures.Photo&gt;" />
     </data>
 
-    <RelativeLayout
-    android:id="@+id/content_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="se.oscarb.fivehundredpictures.MainActivity"
+    <FrameLayout
+        android:id="@+id/content_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="se.oscarb.fivehundredpictures.MainActivity"
         tools:showIn="@layout/activity_main">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:elevation="2dp">
-
-            <LinearLayout
-            android:id="@+id/search_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/white"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/query"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:drawableLeft="@drawable/ic_search_black_24dp"
-                android:drawablePadding="24dp"
-                android:drawableTint="@color/active_icon"
-                android:hint="Search 500px..."
-                android:imeOptions="actionSearch"
-                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                android:paddingBottom="16dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:paddingTop="16dp" />
-
-            <Button
-                android:id="@+id/search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="searchServiceForPictures"
-                android:text="Search"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-        </android.support.v7.widget.CardView>
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/layout_search_bar" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/empty_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text=""
+            android:layout_gravity="center"
             android:textAppearance="?android:attr/textAppearanceMediumInverse"
             android:visibility="@{photoList.isEmpty() ? View.VISIBLE : View.GONE}" />
 
-    </RelativeLayout>
+    </FrameLayout>
 </layout>

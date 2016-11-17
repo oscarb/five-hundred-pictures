@@ -6,6 +6,9 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+/*
+    Adjust size so that height of layout is equal to width
+ */
 public class SquareFrameLayout extends FrameLayout {
     public SquareFrameLayout(Context context) {
         super(context);

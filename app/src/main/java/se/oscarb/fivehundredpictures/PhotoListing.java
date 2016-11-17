@@ -3,10 +3,16 @@ package se.oscarb.fivehundredpictures;
 import java.util.List;
 
 public class PhotoListing {
-    int current_page;
-    int total_pages;
-    int total_items;
-    List<Photo> photos;
+    private int current_page;
+    private int total_pages;
+    private int total_items;
+    private List<Photo> photos;
 
+    public List<Photo> getPhotos() {
+        return photos;
+    }
 
+    public int getTotalItems() {
+        return total_items;
+    }
 }

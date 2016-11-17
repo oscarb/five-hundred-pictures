@@ -35,11 +35,11 @@ public class Photo {
         return (url == null) ? "" : ServiceGenerator.BASE_URL + url;
     }
 
-
+    // Get URL to thumbnail or larger photo
     public String getImageUrl(int imageSize) {
-        String result = images.get(0).url;
+        String result = images.get(0).getUrl();
         for (PhotoImage image : images) {
-            result = (image.size == imageSize) ? image.url : result;
+            result = (image.getSize() == imageSize) ? image.getUrl() : result;
         }
         return result;
     }

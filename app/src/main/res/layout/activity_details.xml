@@ -26,21 +26,8 @@
 
             <TextView
                 android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:alpha="0.85"
-                android:autoLink="web"
-                android:background="@android:color/background_dark"
-                android:lineSpacingMultiplier="1.2"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_horizontal_margin"
-                android:textAppearance="?android:attr/textAppearanceMediumInverse"
-
-                />
+                style="@style/overlapping_description"
+                android:layout_gravity="bottom|center_horizontal" />
         </FrameLayout>
 
     </FrameLayout>

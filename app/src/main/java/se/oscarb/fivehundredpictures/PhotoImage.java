@@ -1,7 +1,15 @@
 package se.oscarb.fivehundredpictures;
 
 public class PhotoImage {
-    int size;
-    String url;
-    String format;
+    private int size;
+    private String url;
+    private String format;
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }

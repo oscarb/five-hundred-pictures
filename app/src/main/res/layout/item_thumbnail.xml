@@ -15,18 +15,8 @@
 
         <TextView
             android:id="@+id/nsfw"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:alpha="0.8"
-            android:background="@android:color/background_dark"
-            android:gravity="center"
-            android:text="NSFW"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
+            style="@style/nsfw_warning"
+            android:text="@string/nsfw"
             android:visibility="gone" />
 
     </se.oscarb.fivehundredpictures.SquareFrameLayout>

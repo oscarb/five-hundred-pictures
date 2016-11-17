@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
     private List<Photo> photos;
 
+    private EditText searchEditText;
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
         // Set view using data binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
+        searchEditText = binding.contentMain.searchBar.query;
 
         // Create service
         client = ServiceGenerator.createService(FiveHundredPxClient.class);
@@ -57,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         if (DataHolder.getInstance().getPhotoList() != null) {
             photos.addAll(DataHolder.getInstance().getPhotoList());
         } else {
-            binding.contentMain.query.requestFocus();
+            binding.contentMain.searchBar.query.requestFocus();
+
         }
 
         // RecyclerView
@@ -85,12 +89,12 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         ((ThumbnailsAdapter) adapter).setOnThumbnailClickListener(this);
 
         // Handle action from keyboard
-        binding.contentMain.query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        binding.contentMain.searchBar.query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    searchServiceForPictures(textView);
+                    searchServiceForPictures();
                     handled = true;
                 }
                 return handled;
@@ -101,13 +105,19 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
 
     }
 
-
     public void searchServiceForPictures(View view) {
-        // Check input
+        searchServiceForPictures();
+    }
 
+    public void searchServiceForPictures() {
+        String term = searchEditText.getText().toString();
+
+        // Check input
+        if (term.trim().isEmpty()) {
+            return;
+        }
 
         // Set query
-        String term = binding.contentMain.query.getText().toString();
         int[] imageSizes = {thumbnailSizeId, photoImageSizeId};
 
         // Talk to API
@@ -120,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         }
 
         // Remove focus from editText
-        binding.contentMain.query.clearFocus();
+        searchEditText.clearFocus();
 
         // Display progressbar
         binding.contentMain.progressBar.setVisibility(View.VISIBLE);
@@ -135,20 +145,15 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
     public void onThumbnailClick(int adapterPosition) {
         Photo photo = photos.get(adapterPosition);
 
-
+        // Show detailed activity with Photo properties
         Intent intent = new Intent(this, DetailsActivity.class);
-        //intent.putExtra(EXTRA_PHOTO_ID, photos.get(adapterPosition).id);
         intent.putExtra(EXTRA_PHOTO_NAME, photo.getName());
         intent.putExtra(EXTRA_PHOTO_DESCRIPTION, photo.getDescription());
         intent.putExtra(EXTRA_PHOTO_URL, photo.getUrl());
         intent.putExtra(EXTRA_PHOTO_IMAGE_URL, photo.getImageUrl(photoImageSizeId));
         intent.putExtra(EXTRA_USER_FULLNAME, photo.getUser().getName());
 
-
-
-
         startActivity(intent);
-
     }
 
     private class PhotoSearchCallback implements Callback<PhotoListing> {
@@ -158,18 +163,18 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
             binding.contentMain.progressBar.setVisibility(View.GONE);
 
             if (!response.isSuccessful()) {
-                Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, "Can't connect to 500px", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, R.string.error_message_response_unsuccesful, Snackbar.LENGTH_LONG);
                 snackbar.show();
                 return;
             }
 
             // Get list of photos and save them for configuration changes
             PhotoListing photoListing = response.body();
-            DataHolder.getInstance().setPhotoList(photoListing.photos);
+            DataHolder.getInstance().setPhotoList(photoListing.getPhotos());
 
-            if (photoListing.photos.size() == 0) {
+            if (photoListing.getTotalItems() == 0) {
                 // TODO: Get and display the term that was searched for (No results for "monkeys")
-                binding.contentMain.emptyState.setText("No results");
+                binding.contentMain.emptyState.setText(R.string.no_results);
             }
 
             /*
@@ -185,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
             */
 
             photos.clear();
-            photos.addAll(photoListing.photos);
+            photos.addAll(photoListing.getPhotos());
             adapter.notifyDataSetChanged();
         }
 
@@ -193,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
         public void onFailure(Call<PhotoListing> call, Throwable t) {
             binding.contentMain.progressBar.setVisibility(View.GONE);
 
-            Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, "Can't connect to 500px", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, R.string.error_message_call_failure, Snackbar.LENGTH_LONG);
             snackbar.show();
             t.printStackTrace();
         }
