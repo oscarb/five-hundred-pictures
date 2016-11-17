@@ -8,42 +8,13 @@
         android:layout_gravity="center_horizontal"
         tools:showIn="@layout/content_main">
 
-        <LinearLayout
-            android:id="@+id/search_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/white"
-            android:orientation="horizontal">
-
             <EditText
                 android:id="@+id/query"
+                style="@style/search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:drawableLeft="@drawable/ic_search_black_24dp"
-                android:drawablePadding="24dp"
                 android:drawableTint="@color/active_icon"
-                android:hint="Search 500px..."
-                android:imeOptions="actionSearch"
-                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                android:paddingBottom="16dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:paddingTop="16dp" />
-
-            <Button
-                android:id="@+id/search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="searchServiceForPictures"
-                android:text="Search"
-                android:visibility="gone" />
-
-        </LinearLayout>
+                android:hint="@string/search_hint" />
 
     </android.support.v7.widget.CardView>
 </layout>

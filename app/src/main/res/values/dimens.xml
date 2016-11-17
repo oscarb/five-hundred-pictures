@@ -6,4 +6,7 @@
     <dimen name="grid_target_width">150dp</dimen>
     <dimen name="grid_padding_top">128dp</dimen>
     <dimen name="grid_padding_bottom">100dp</dimen>
+    <dimen name="search_bar_horizontal_padding">24dp</dimen>
+    <dimen name="search_bar_vertical_padding">16dp</dimen>
+    <dimen name="search_bar_icon_padding">24dp</dimen>
 </resources>

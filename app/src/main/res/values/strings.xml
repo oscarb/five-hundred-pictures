@@ -9,4 +9,5 @@
     <string name="no_results">No results</string>
     <string name="error_message_call_failure">Can\'t connect to 500px</string>
     <string name="nsfw">NSFW</string>
+    <string name="search_hint">Search 500px...</string>
 </resources>
