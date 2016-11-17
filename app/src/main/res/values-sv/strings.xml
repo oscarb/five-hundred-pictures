@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Five Hundred Pictures</string>
+    <string name="title_activity_details">Detaljer</string>
+    <string name="error_message_call_failure">Bilder kunde ej hämtasr från 500px</string>
+    <string name="error_message_response_unsuccessful">Bilder kunde ej hämtasr från 500px</string>
+    <string name="no_results">Inga träffar</string>
+    <string name="search_hint">Sök 500px…</string>
+</resources>

@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ThumbnailsAdapter
             binding.contentMain.progressBar.setVisibility(View.GONE);
 
             if (!response.isSuccessful()) {
-                Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, R.string.error_message_response_unsuccesful, Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, R.string.error_message_response_unsuccessful, Snackbar.LENGTH_LONG);
                 snackbar.show();
                 return;
             }

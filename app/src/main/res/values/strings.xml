@@ -1,13 +1,9 @@
 <resources>
     <string name="app_name">Five Hundred Pictures</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="title_activity_details">DetailsActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="error_message_response_unsuccesful">Can\'t connect to 500px</string>
+    <string name="title_activity_details">Details</string>
+    <string name="search_hint">Search 500px…</string>
     <string name="no_results">No results</string>
+    <string name="error_message_response_unsuccessful">Can\'t connect to 500px</string>
     <string name="error_message_call_failure">Can\'t connect to 500px</string>
     <string name="nsfw">NSFW</string>
-    <string name="search_hint">Search 500px...</string>
 </resources>
